@@ -23,7 +23,13 @@ class LDBlocks:
                     s = int(line.strip().split()[2]) - 1000000
                     o.write("chr%s\t%d\t%d\n" % (line.strip().split()[0], s if s > 0 else 0, int(line.strip().split()[2]) + 1000000))
                 o.flush()
-                os.system("sort -k1,1 -k2,2n %s | bedtools merge -i - > %s" % (o.name, self.tempfile.name))
+                with tempfile.NamedTemporaryFile('rt') as b:
+                    os.system("sort -k1,1 -k2,2n %s | bedtools merge -i - > %s" % (o.name, b.name))
+                    i = 0
+                    for line in b:
+                        self.tempfile.write("%s\t%d\n" % (line.strip(), i))
+                        i += 1
+        self.tempfile.flush()
         return self.tempfile
 
     def __exit__(self, *args):

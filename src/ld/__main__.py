@@ -24,14 +24,14 @@ def main(argc, argv):
     linemap = { x.strip().split()[field]: x.strip().split() for x in lines }
     snps = group(
         lines,
-        lambda x: x.strip().split()[0],
+        lambda x: x.strip().split()[-1],
         lambda x: x.strip().split()[field]
     )
 
-    print("found %d chromosomes" % len(snps), file = sys.stderr)
+    print("found %d LD blocks" % len(snps), file = sys.stderr)
     os.system("mkdir -p %s" % argv[4])
     for k, v in snps.items():
-        print("\nworking on chromosome %s (%d)" % (k, len(v)), file = sys.stderr)
+        print("\nworking on LD block %s (%d SNPs)" % (k, len(v)), file = sys.stderr)
         with open(os.path.join(argv[4], k + ".z"), 'w') as o:
             o.write("rsid chromosome position allele1 allele2 maf beta se\n")
             for snp in v:

@@ -19,7 +19,7 @@ class IntersectedSummaryStatistics:
             o.flush()
             with tempfile.NamedTemporaryFile('rt') as f:
                 with open(self.tempfile.name, 'wt') as oo:
-                    os.system("bedtools intersect -a %s -b %s -wa | sort | uniq > %s" % (o.name, self.b, f.name))
+                    os.system("bedtools intersect -a %s -b %s -wa -wb | sort | uniq > %s" % (o.name, self.b, f.name))
                     for line in f:
                         oo.write("\t".join(line.strip().split()[3:]) + "\n")
                     oo.flush()
