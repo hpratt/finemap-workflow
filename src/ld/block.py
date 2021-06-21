@@ -26,10 +26,11 @@ class LDBlocks:
                 with tempfile.NamedTemporaryFile('rt') as b:
                     os.system("sort -k1,1 -k2,2n %s | bedtools merge -i - > %s" % (o.name, b.name))
                     i = 0
-                    for line in b:
-                        self.tempfile.write("%s\t%d\n" % (line.strip(), i))
-                        i += 1
-        self.tempfile.flush()
+                    with open(self.tempfile.name, 'wt') as oo:
+                        for line in b:
+                            oo.write("%s\t%d\n" % (line.strip(), i))
+                            i += 1
+                        oo.flush()
         return self.tempfile
 
     def __exit__(self, *args):

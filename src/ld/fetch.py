@@ -10,7 +10,7 @@ QUERY = """
           id
           linkageDisequilibrium(population: $population) {
               id
-              rSquared
+              dPrime
           }
       }
   }
@@ -22,7 +22,7 @@ def fetch_ld(endpoint: str, batch: List[str], population: str) -> List[Dict[str,
 
         # fetch a map of linked SNPs to correlation coefficients...
         x["id"]: {
-            xx["id"]: xx["rSquared"]
+            xx["id"]: xx["dPrime"]
             for xx in x["linkageDisequilibrium"]
         }
 
